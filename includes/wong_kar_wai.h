@@ -13,12 +13,19 @@
 
 #ifndef WONG_KAR_WAI_H
 # define WONG_KAR_WAI_H
+
 # include "libft.h"
 # include <ncurses.h>
+# include <stdbool.h>
+
+# define BOARD_SIZE 4
 
 enum e_const
 {
 	WIN_VALUE = 2048
 };
+
+
+void	initializeWindow();
 
 #endif

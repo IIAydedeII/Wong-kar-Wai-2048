@@ -47,7 +47,8 @@ LIBRARIES		=	-l ncurses
 
 MAIN			=	main.c
 
-SRCS			=	$(addprefix src/,$(MAIN))
+SRCS			=	$(addprefix src/,$(MAIN)) \
+					$(addprefix src/components/,window.c)	
 
 OBJS			=	$(SRCS:.c=.o)
 
