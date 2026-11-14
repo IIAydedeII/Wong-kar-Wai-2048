@@ -1,0 +1,10 @@
+# Program name
+wong_kar_wai
+
+# Compilation
+*.out
+*.o
+*.a
+
+# Tests
+*test*
