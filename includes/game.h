@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 20:04:09 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 20:44:02 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 21:08:29 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,12 @@ void	merge(t_cell *head, t_direction dir);
 void	swipe_line(t_cell *head, t_direction dir);
 void	swipe_grid(t_grid *grid, t_direction dir);
 
-//	UTILS
-
-//		Cell
+//	CELL
 t_cell	*new_cell(size_t value);
 t_cell	*get_neighbor(t_cell *cell, t_direction dir);
 t_cell	*get_cell(t_grid *grid, size_t x, size_t y);
 
-//		Grid
+//	GRID
 int		initialize_grid(t_grid *grid);
 t_grid	*new_grid(size_t dimension);
 t_cell	*column_end(t_cell *head);

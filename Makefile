@@ -6,7 +6,7 @@
 #    By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/14 18:38:49 by adede             #+#    #+#              #
-#    Updated: 2026/11/15 18:04:36 by adede            ###   ########.fr        #
+#    Updated: 2026/11/15 21:08:45 by adede            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,9 @@ LIBRARIES		=	-l ncurses
 
 MAIN			=	main.c
 
-SRC_GAME		=	game.c \
-					actions.c \
-					utils.c \
+SRC_GAME		=	actions.c \
+					cell.c \
+					grid.c \
 
 SRC_DISPLAY		=	window.c
 

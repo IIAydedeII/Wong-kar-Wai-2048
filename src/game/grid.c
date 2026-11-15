@@ -1,47 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/15 17:45:43 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 20:44:37 by adede            ###   ########.fr       */
+/*   Created: 2026/11/15 20:58:16 by adede             #+#    #+#             */
+/*   Updated: 2026/11/15 21:06:52 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "game.h"
-
-
-t_cell	*new_cell(size_t value)
-{
-	t_cell	*cell;
-
-	cell = ft_calloc(1, sizeof(t_cell));
-
-	if (!cell)
-		return (NULL);
-
-	cell->value = value;
-
-	return (cell);
-}
-
-t_cell	*get_neighbor(t_cell *cell, t_direction dir)
-{
-	if (!cell)
-		return (NULL);
-
-	switch (dir)
-	{
-		case NORTH: return (cell->north);
-		case EAST:  return (cell->east);
-		case SOUTH: return (cell->south);
-		case WEST:  return (cell->west);
-	}
-	return (NULL);
-}
-
 
 int	initialize_grid(t_grid *grid)
 {
@@ -83,7 +53,6 @@ int	initialize_grid(t_grid *grid)
 	return (1);
 }
 
-
 t_grid	*new_grid(size_t dimension)
 {
 	t_grid	*grid;
@@ -103,6 +72,36 @@ t_grid	*new_grid(size_t dimension)
 
 
 	return (grid);
+}
+
+void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_direction))
+{
+	t_direction	traversal;
+
+	if (dir == EAST || dir == WEST)
+		traversal = SOUTH;
+	else
+		traversal = EAST;
+
+	while (head)
+	{
+		if (fn)
+			fn(head, dir);
+		head = get_neighbor(head, traversal);
+	}
+}
+
+void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction))
+{
+	t_cell	*head_row;
+
+	head_row = grid.head;
+	while (head_row)
+	{
+		iterate_line(head_row, EAST, fn);
+		head_row = head_row->south;
+		ft_putchar_fd('\n', 1);
+	}
 }
 
 t_cell	*get_cell(t_grid *grid, size_t x, size_t y)
@@ -144,36 +143,4 @@ t_cell	*row_end(t_cell *head)
 		head = head->south;
 
 	return (head);
-}
-
-
-void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_direction))
-{
-	t_direction	traversal;
-
-	if (dir == EAST || dir == WEST)
-		traversal = SOUTH;
-	else
-		traversal = EAST;
-
-	while (head)
-	{
-		if (fn)
-			fn(head, dir);
-		head = get_neighbor(head, traversal);
-	}
-}
-
-
-void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction))
-{
-	t_cell	*head_row;
-
-	head_row = grid.head;
-	while (head_row)
-	{
-		iterate_line(head_row, EAST, fn);
-		head_row = head_row->south;
-		ft_putchar_fd('\n', 1);
-	}
 }
