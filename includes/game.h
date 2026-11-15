@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 20:04:09 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 21:08:29 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 21:27:13 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_grid
 
 //	ACTIONS
 void	compress(t_cell *head, t_direction dir);
-void	merge(t_cell *head, t_direction dir);
-void	swipe_line(t_cell *head, t_direction dir);
+size_t	merge(t_cell *head, t_direction dir);
+size_t	swipe_line(t_cell *head, t_direction dir);
 void	swipe_grid(t_grid *grid, t_direction dir);
 
 //	CELL
@@ -55,7 +55,7 @@ int		initialize_grid(t_grid *grid);
 t_grid	*new_grid(size_t dimension);
 t_cell	*column_end(t_cell *head);
 t_cell	*row_end(t_cell *head);
-void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_direction));
+size_t	iterate_line(t_cell *head, t_direction dir, size_t (*fn)(t_cell *, t_direction));
 void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction));
 
 #endif

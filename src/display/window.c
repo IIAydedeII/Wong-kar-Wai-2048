@@ -50,6 +50,7 @@ void drawBoard(t_grid *grid)
 	clear();
 	if (window->boxSize >= 5)
 	{
+		mvprintw(window->offsetY - 1, window->offsetX, "Score: %zu\n", grid->score);
 		drawBorders(window);
 		drawNumbers(window, grid);
 	}

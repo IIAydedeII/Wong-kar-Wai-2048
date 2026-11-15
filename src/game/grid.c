@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/15 20:58:16 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 21:06:52 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 21:37:26 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ t_grid	*new_grid(size_t dimension)
 	return (grid);
 }
 
-void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_direction))
+size_t	iterate_line(t_cell *head, t_direction dir, size_t (*fn)(t_cell *, t_direction))
 {
+	size_t		score;
 	t_direction	traversal;
 
 	if (dir == EAST || dir == WEST)
@@ -83,12 +84,15 @@ void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_directio
 	else
 		traversal = EAST;
 
+	score = 0;
 	while (head)
 	{
 		if (fn)
-			fn(head, dir);
+			score += fn(head, dir);
 		head = get_neighbor(head, traversal);
 	}
+
+	return (score);
 }
 
 void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction))

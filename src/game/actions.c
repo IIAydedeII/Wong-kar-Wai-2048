@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/15 18:00:45 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 20:44:27 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 21:18:04 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	compress(t_cell *head, t_direction dir)
 	}
 }
 
-void	merge(t_cell *head, t_direction dir)
+size_t	merge(t_cell *head, t_direction dir)
 {
+	size_t	score;
 	t_cell	*neighbor;
 
+	score = 0;
 	while (head)
 	{
 		neighbor = get_neighbor(head, opposite_direction(dir));
@@ -54,17 +56,24 @@ void	merge(t_cell *head, t_direction dir)
 		if (head->value && head->value == neighbor->value)
 		{
 			head->value += neighbor->value;
+			score += head->value;
 			neighbor->value = 0;
 		}
 		head = neighbor;
 	}
+
+	return (score);
 }
 
-void	swipe_line(t_cell *head, t_direction dir)
+size_t	swipe_line(t_cell *head, t_direction dir)
 {
+	size_t	score;
+
 	compress(head, dir);
-	merge(head, dir);
+	score = merge(head, dir);
 	compress(head, dir);
+
+	return (score);
 }
 
 void	swipe_grid(t_grid *grid, t_direction dir)
@@ -78,5 +87,5 @@ void	swipe_grid(t_grid *grid, t_direction dir)
 	else if (dir == SOUTH)
 		line = row_end(line);
 
-	iterate_line(line, dir, swipe_line);
+	grid->score += iterate_line(line, dir, swipe_line);
 }
