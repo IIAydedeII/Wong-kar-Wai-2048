@@ -1,5 +1,6 @@
-#include "game.h"
 #include <stdlib.h>
+#include "game.h"
+#include "wong_kar_wai.h"
 
 bool do_action(t_grid *grid, t_direction dir)
 {
@@ -8,12 +9,13 @@ bool do_action(t_grid *grid, t_direction dir)
 
 		swipe_grid(grid, dir);
 		generate_random_tile(grid, 1);
-		
 
-		if (isAnyMovePossible(grid))
-			return (false);
+		if (!grid->won && isAnyTileWinnable(grid))
+			grid->won = true;
+		if (!isAnyMovePossible(grid))
+			return (true);
 	}
-	return (true);
+	return (false);
 }
 
 
@@ -62,4 +64,13 @@ int	generate_random_tile(t_grid *grid, int count)
 		placed++;
 	}
 	return (placed);
+}
+
+bool	isAnyTileWinnable(t_grid *grid)
+{
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			if (get_cell(grid, i, j)->value == WIN_VALUE)
+				return (true);
+	return (false);
 }

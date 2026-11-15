@@ -34,9 +34,9 @@ INVERSE			:=	$(ESC)[7m
 # Compilation
 # =========================================
 
-NAME 			=	wong_kar_wai
+NAME 			=	2048
 
-CC				=	cc
+CC				=	cc -g
 
 LIBFT_DIR		=	libft
 LIBFT			=	$(LIBFT_DIR)/libft.a
@@ -46,6 +46,10 @@ INCLUDES		=	-I ./includes -I $(LIBFT_DIR)
 LIBRARIES		=	-l ncurses
 
 MAIN			=	main.c
+
+HEADERS 		= 	includes/display.h \
+					includes/game.h \
+					includes/wong_kar_wai.h
 
 SRC_GAME		=	actions.c \
 					cell.c \
@@ -62,7 +66,7 @@ OBJS			=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): ${LIBFT} $(OBJS)
+$(NAME): ${LIBFT} $(OBJS) 
 	@printf "$(GREEN)$(BOLD)[$(NAME)]$(RESET)"
 	@printf "$(GREEN) Linking$(RESET)\n"
 	@$(CC) -Wall -Werror -Wextra $(INCLUDES) $(LIBRARIES) $(OBJS) $(LIBFT) -o $@
@@ -72,7 +76,7 @@ $(LIBFT):
 	@printf "$(BLUE) Creating library$(RESET)\n"
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
-%.o: %.c
+%.o: %.c $(HEADERS)
 	@printf "$(DIM)$(BOLD)[$(NAME)]$(RESET)"
 	@printf "$(DIM) Compiling $<$(RESET)\n"
 	@$(CC) -Wall -Werror -Wextra $(INCLUDES) -c $< -o $@

@@ -3,6 +3,7 @@
 void initializeWindow(t_grid *grid)
 {
     int	key;
+	int	gameEnded;
 
     initscr();
 	keypad(stdscr, TRUE);
@@ -12,20 +13,25 @@ void initializeWindow(t_grid *grid)
 	drawBoard(grid);
 	while (true)
     {
+		gameEnded = false;
         key = getch();
 		if (key == KEY_UP)
-			do_action(grid, NORTH);
+			gameEnded = do_action(grid, NORTH);
 		else if (key == KEY_DOWN)
-			do_action(grid, SOUTH);
+			gameEnded = do_action(grid, SOUTH);
 		else if (key == KEY_LEFT)
-			do_action(grid, WEST);
+			gameEnded = do_action(grid, WEST);
 		else if (key == KEY_RIGHT)
-			do_action(grid, EAST);
+			gameEnded = do_action(grid, EAST);
 		else if (key == KEY_ESCAPE)
 			break;
+		
 		drawBoard(grid);
+		if (gameEnded)
+			break;
     }
 	endwin();
+	ft_printf("You %s Your score was: %d\n", grid->won ? "WON!" : "lost.", grid->score);
 }
 
 void drawBoard(t_grid *grid)
@@ -51,7 +57,9 @@ void drawBoard(t_grid *grid)
 	clear();
 	if (window->boxSize >= 5)
 	{
-		mvprintw(window->offsetY - 1, window->offsetX, "Score: %zu\n", grid->score);
+		mvprintw(window->offsetY + (window->boardSize / 2) + 1, window->offsetX, "Score: %zu\n", grid->score);
+		if (grid->won)
+			mvprintw(window->offsetY - 1, window->offsetX, "You WON!");
 		drawBorders(window);
 		drawNumbers(window, grid);
 	}
@@ -95,6 +103,8 @@ void drawNumbers(t_window *window, t_grid *grid)
 			t_cell *cell = get_cell(grid, i, j);
 			getBoxCoordinates(window, i, j, &x, &y);
 			num = cell->value;
+			if (num == 0)
+				continue;
 			len = getNumLen(num);
 			if (len > window->boxSize - 2)
 				mvprintw(y + window->boxSize / 4, x + ((window->boxSize - 1) / 2), ".");
