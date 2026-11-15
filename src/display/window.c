@@ -2,10 +2,10 @@
 
 void initializeWindow(t_grid *grid)
 {
-    int	key;	
+    int	key;
 
     initscr();
-	keypad(stdscr, TRUE);	
+	keypad(stdscr, TRUE);
 	cbreak();
 	noecho();
 
@@ -46,7 +46,7 @@ void drawBoard(t_grid *grid)
 	window->offsetY = (window->screenHeight - window->boardSize / 2) / 2 + SCREEN_PADDING / 4;
 
 
-	
+
 	clear();
 	if (window->boxSize >= 5)
 	{
@@ -84,13 +84,13 @@ void drawNumbers(t_window *window, t_grid *grid)
 	int		num;
 	int		len;
 	int		x;
-	int		y;	
-	
+	int		y;
+
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			t_cell *cell = get_cell(grid->head, i, j);
+			t_cell *cell = get_cell(grid, i, j);
 			getBoxCoordinates(window, i, j, &x, &y);
 			num = cell->value;
 			len = getNumLen(num);
@@ -98,8 +98,8 @@ void drawNumbers(t_window *window, t_grid *grid)
 				mvprintw(y + window->boxSize / 4, x + ((window->boxSize - 1) / 2), ".");
 			else
 				mvprintw(y + window->boxSize / 4, x + ((window->boxSize - len + 1) / 2), "%d", num);
-			
-			
+
+
 		}
 	}
 }

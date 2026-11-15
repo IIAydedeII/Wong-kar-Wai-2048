@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/15 18:00:45 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 20:04:06 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 20:44:27 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_direction	opposite_direction(t_direction dir)
 	return ((dir + 2) % 4);
 }
 
-void	compress(t_cell *head, t_direction direction)
+void	compress(t_cell *head, t_direction dir)
 {
 	t_cell	*neighbor;
 
@@ -25,10 +25,10 @@ void	compress(t_cell *head, t_direction direction)
 	{
 		if (!head->value)
 		{
-			neighbor = get_neighbor(head, opposite_direction(direction));
+			neighbor = get_neighbor(head, opposite_direction(dir));
 
 			while (neighbor && !neighbor->value)
-				neighbor = get_neighbor(neighbor, opposite_direction(direction));
+				neighbor = get_neighbor(neighbor, opposite_direction(dir));
 
 			if (neighbor)
 			{
@@ -36,17 +36,17 @@ void	compress(t_cell *head, t_direction direction)
 				neighbor->value = 0;
 			}
 		}
-		head = get_neighbor(head, opposite_direction(direction));
+		head = get_neighbor(head, opposite_direction(dir));
 	}
 }
 
-void	merge(t_cell *head, t_direction direction)
+void	merge(t_cell *head, t_direction dir)
 {
 	t_cell	*neighbor;
 
 	while (head)
 	{
-		neighbor = get_neighbor(head, opposite_direction(direction));
+		neighbor = get_neighbor(head, opposite_direction(dir));
 
 		if (!neighbor)
 			break ;
@@ -60,23 +60,23 @@ void	merge(t_cell *head, t_direction direction)
 	}
 }
 
-void	swipe_line(t_cell *head, t_direction direction)
+void	swipe_line(t_cell *head, t_direction dir)
 {
-	compress(head, direction);
-	merge(head, direction);
-	compress(head, direction);
+	compress(head, dir);
+	merge(head, dir);
+	compress(head, dir);
 }
 
-void	swipe_grid(t_grid *grid, t_direction direction)
+void	swipe_grid(t_grid *grid, t_direction dir)
 {
 	t_cell		*line;
 
 	line = grid->head;
 
-	if (direction == EAST)
+	if (dir == EAST)
 		line = column_end(line);
-	else if (direction == SOUTH)
+	else if (dir == SOUTH)
 		line = row_end(line);
 
-	iterate_line(line, direction, swipe_line);
+	iterate_line(line, dir, swipe_line);
 }

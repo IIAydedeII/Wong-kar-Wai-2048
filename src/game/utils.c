@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/15 17:45:43 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 20:05:43 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 20:44:37 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_cell	*get_neighbor(t_cell *cell, t_direction dir)
 }
 
 
-void	initialize_grid(t_grid *grid, size_t dimension)
+int	initialize_grid(t_grid *grid)
 {
 	t_cell	*cell;
 	t_cell	*row_head;
@@ -51,15 +51,15 @@ void	initialize_grid(t_grid *grid, size_t dimension)
 	t_cell	*above;
 
 	above = NULL;
-	for (size_t i = 0; i < dimension; i++)
+	for (size_t i = 0; i < grid->dimension; i++)
 	{
 		row_head = NULL;
 		prev = NULL;
-		for (size_t j = 0; j < dimension; j++)
+		for (size_t j = 0; j < grid->dimension; j++)
 		{
 			cell = new_cell(0);
 			if (!cell)
-				return ;
+				return (0);
 
 			if (!grid->head)
 				grid->head = cell;
@@ -78,11 +78,9 @@ void	initialize_grid(t_grid *grid, size_t dimension)
 			}
 			prev = cell;
 		}
-		if (i == 0)
-			above = grid->head;
-		else
-			above = row_head;
+		above = row_head;
 	}
+	return (1);
 }
 
 
@@ -95,18 +93,33 @@ t_grid	*new_grid(size_t dimension)
 	if (!grid)
 		return (NULL);
 
-	initialize_grid(grid, dimension);
+	grid->dimension = dimension;
+
+	if (!initialize_grid(grid))
+	{
+		// free_grid(grid);
+		return (NULL);
+	}
+
 
 	return (grid);
 }
 
-t_cell	*get_cell(t_cell *cell, int x, int y)
+t_cell	*get_cell(t_grid *grid, size_t x, size_t y)
 {
-	t_cell	*temp = cell;
+	t_cell	*temp;
 
-	for (int i = 0; i < x; i++)
+	if (!(x < grid->dimension && y < grid->dimension))
+		return (NULL);
+
+	temp = grid->head;
+
+	if (!temp)
+		return (NULL);
+
+	for (size_t i = 0; i < x; i++)
 		temp = temp->east;
-	for (int j = 0; j < y; j++)
+	for (size_t j = 0; j < y; j++)
 		temp = temp->south;
 	return (temp);
 }
@@ -134,11 +147,11 @@ t_cell	*row_end(t_cell *head)
 }
 
 
-void	iterate_line(t_cell *head, t_direction direction, void (*fn)(t_cell *, t_direction))
+void	iterate_line(t_cell *head, t_direction dir, void (*fn)(t_cell *, t_direction))
 {
 	t_direction	traversal;
 
-	if (direction == EAST || direction == WEST)
+	if (dir == EAST || dir == WEST)
 		traversal = SOUTH;
 	else
 		traversal = EAST;
@@ -146,28 +159,21 @@ void	iterate_line(t_cell *head, t_direction direction, void (*fn)(t_cell *, t_di
 	while (head)
 	{
 		if (fn)
-			fn(head, direction);
+			fn(head, dir);
 		head = get_neighbor(head, traversal);
 	}
 }
 
 
-void	iterate_grid(t_grid grid, void (*fn)(t_cell *))
+void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction))
 {
-	t_cell	*head_column;
 	t_cell	*head_row;
 
 	head_row = grid.head;
-	head_column = head_row;
 	while (head_row)
 	{
-		while (head_column)
-		{
-			fn(head_column);
-			head_column = head_column->east;
-		}
+		iterate_line(head_row, EAST, fn);
 		head_row = head_row->south;
-		head_column = head_row;
 		ft_putchar_fd('\n', 1);
 	}
 }
