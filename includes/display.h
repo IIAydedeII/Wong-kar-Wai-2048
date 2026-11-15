@@ -30,6 +30,11 @@ typedef struct s_window
 	int	offsetY;
 }	t_window;
 
-void	initializeWindow(void);
+int		getNumLen(int num);
+void	initializeWindow(t_grid *grid);
+void 	drawBoard(t_grid *grid);
+void 	drawBorders(t_window *window);
+void	drawNumbers(t_window *window, t_grid *grid);
+void 	getBoxCoordinates(t_window *window, int x, int y, int *boxX, int *boxY);
 
 #endif

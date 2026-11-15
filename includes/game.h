@@ -49,6 +49,7 @@ void	push_cell(t_cell *cell, t_direction direction);
 //		Cell
 t_cell	*new_cell(size_t value);
 t_cell	*get_neighbor(t_cell *cell, t_direction dir);
+t_cell	*get_cell(t_cell *cell, int x, int y);
 
 //		Grid
 void	initialize_grid(t_grid *grid, size_t dimension);

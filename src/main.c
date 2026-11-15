@@ -14,7 +14,15 @@
 
 int	main(void)
 {
-	initializeWindow();
+	t_grid	*const grid = new_grid(BOARD_SIZE);
+
+	if (!grid)
+	{
+		ft_printf("Error: Failed to create grid.\n");
+		return (1);
+	}
+
+	initializeWindow(grid);
 
 	return (0);
 }

@@ -57,7 +57,7 @@ void	initialize_grid(t_grid *grid, size_t dimension)
 		prev = NULL;
 		for (size_t j = 0; j < dimension; j++)
 		{
-			cell = new_cell((i + j) % 2);
+			cell = new_cell(i + j);
 			if (!cell)
 				return ;
 
@@ -98,6 +98,17 @@ t_grid	*new_grid(size_t dimension)
 	initialize_grid(grid, dimension);
 
 	return (grid);
+}
+
+t_cell	*get_cell(t_cell *cell, int x, int y)
+{
+	t_cell *temp = cell;
+
+	for (int i = 0; i < x; i++)
+		temp = temp->east;
+	for (int j = 0; j < y; j++)
+		temp = temp->south;
+	return (temp);
 }
 
 t_cell	*column_end(t_cell *head)

@@ -1,12 +1,6 @@
 #include "wong_kar_wai.h"
 
-int		getNumLen(int num);
-void 	drawBoard(void);
-void 	drawBorders(t_window *window);
-void	drawNumbers(t_window *window);
-void 	getBoxCoordinates(t_window *window, int x, int y, int *boxX, int *boxY);
-
-void initializeWindow()
+void initializeWindow(t_grid *grid)
 {
     int	key;	
 
@@ -15,22 +9,25 @@ void initializeWindow()
 	cbreak();
 	noecho();
 
-	drawBoard();
+	drawBoard(grid);
 	while (true)
     {
         key = getch();
-        if (key == KEY_RESIZE)
-            drawBoard();
-		else if (key == KEY_UP || key == KEY_DOWN || key == KEY_LEFT || key == KEY_RIGHT)
-		{
-			
-		}
+		if (key == KEY_UP)
+			swipe_grid(grid, NORTH);
+		else if (key == KEY_DOWN)
+			swipe_grid(grid, SOUTH);
+		else if (key == KEY_LEFT)
+			swipe_grid(grid, WEST);
+		else if (key == KEY_RIGHT)
+			swipe_grid(grid, EAST);
 		else if (key == KEY_ESCAPE)
 			break;
+		drawBoard(grid);
     }
 }
 
-void drawBoard(void)
+void drawBoard(t_grid *grid)
 {
 	t_window	*window = &(t_window){0};
 
@@ -54,7 +51,7 @@ void drawBoard(void)
 	if (window->boxSize >= 5)
 	{
 		drawBorders(window);
-		drawNumbers(window);
+		drawNumbers(window, grid);
 	}
 	else
 		mvprintw(window->screenHeight / 2, (window->screenWidth - 20) / 2, "Window is too small.");
@@ -82,19 +79,20 @@ void drawBorders(t_window *window)
 
 }
 
-void drawNumbers(t_window *window)
+void drawNumbers(t_window *window, t_grid *grid)
 {
 	int		num;
 	int		len;
 	int		x;
 	int		y;	
-
+	
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
+			t_cell *cell = get_cell(grid->head, i, j);
 			getBoxCoordinates(window, i, j, &x, &y);
-			num = 2 << (i * BOARD_SIZE + j);
+			num = cell->value;
 			len = getNumLen(num);
 			if (len > window->boxSize - 2)
 				mvprintw(y + window->boxSize / 4, x + ((window->boxSize - 1) / 2), ".");
