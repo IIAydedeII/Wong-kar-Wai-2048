@@ -12,17 +12,21 @@ void initializeWindow(t_grid *grid)
 	drawBoard(grid);
 	while (true)
     {
+		ft_printf("sa\n");
         key = getch();
+		ft_printf("sa2\n");
 		if (key == KEY_UP)
-			swipe_grid(grid, NORTH);
+			do_action(grid, NORTH);
 		else if (key == KEY_DOWN)
-			swipe_grid(grid, SOUTH);
+			do_action(grid, SOUTH);
 		else if (key == KEY_LEFT)
-			swipe_grid(grid, WEST);
+			do_action(grid, WEST);
 		else if (key == KEY_RIGHT)
-			swipe_grid(grid, EAST);
+			do_action(grid, EAST);
 		else if (key == KEY_ESCAPE)
 			break;
+
+		ft_printf("sa3\n");
 		drawBoard(grid);
     }
 }

@@ -16,7 +16,6 @@
 # include <ncurses.h>
 # include <stdbool.h>
 
-# define BOARD_SIZE 4
 # define SCREEN_PADDING 5
 # define KEY_ESCAPE 27
 

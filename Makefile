@@ -50,6 +50,7 @@ MAIN			=	main.c
 SRC_GAME		=	actions.c \
 					cell.c \
 					grid.c \
+					game.c
 
 SRC_DISPLAY		=	window.c
 

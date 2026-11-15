@@ -53,6 +53,29 @@ int	initialize_grid(t_grid *grid)
 	return (1);
 }
 
+void	free_grid(t_grid *grid)
+{
+	t_cell	*row_head;
+	t_cell	*cell;
+	t_cell	*next;
+
+	if (!grid)
+		return ;
+	row_head = grid->head;
+	while (row_head)
+	{
+		cell = row_head;
+		row_head = row_head->south;
+		while (cell)
+		{
+			next = cell->east;
+			free(cell);
+			cell = next;
+		}
+	}
+	free(grid);
+}
+
 t_grid	*new_grid(size_t dimension)
 {
 	t_grid	*grid;
@@ -66,7 +89,7 @@ t_grid	*new_grid(size_t dimension)
 
 	if (!initialize_grid(grid))
 	{
-		// free_grid(grid);
+		free_grid(grid);
 		return (NULL);
 	}
 
@@ -93,19 +116,6 @@ size_t	iterate_line(t_cell *head, t_direction dir, size_t (*fn)(t_cell *, t_dire
 	}
 
 	return (score);
-}
-
-void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction))
-{
-	t_cell	*head_row;
-
-	head_row = grid.head;
-	while (head_row)
-	{
-		iterate_line(head_row, EAST, fn);
-		head_row = head_row->south;
-		ft_putchar_fd('\n', 1);
-	}
 }
 
 t_cell	*get_cell(t_grid *grid, size_t x, size_t y)
@@ -148,3 +158,64 @@ t_cell	*row_end(t_cell *head)
 
 	return (head);
 }
+
+
+bool	isGridsSame(t_grid *grid1, t_grid *grid2)
+{
+	t_cell	*cell1;
+	t_cell	*cell2;
+
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+		{
+			cell1 = get_cell(grid1, i, j);
+			cell2 = get_cell(grid2, i, j);
+			if (cell1->value != cell2->value)
+				return (false);
+		}
+	return (true);
+}
+
+t_grid	*copy_grid(t_grid *original)
+{
+	t_grid	*grid;
+	t_cell *orig_cell;
+	t_cell *new_cell;
+
+	grid = new_grid(BOARD_SIZE);
+	if (!grid)
+		return (NULL);
+
+	for (int i = 0; i < BOARD_SIZE; i++)
+	{
+		for (int j = 0; j < BOARD_SIZE; j++)
+		{
+			orig_cell = get_cell(original, i, j);
+			new_cell = get_cell(grid, i, j);
+			new_cell->value = orig_cell->value;
+		}
+	}
+	return (grid);
+}
+
+bool	isMovePossible(t_grid *grid, t_direction dir)
+{
+	t_grid	*const tempGrid = copy_grid(grid);
+	bool	movePossible = false;
+
+	if (!tempGrid)
+		return (false);
+
+	swipe_grid(tempGrid, dir);
+	movePossible = !isGridsSame(grid, tempGrid);
+
+	free_grid(tempGrid);
+
+	return (movePossible);
+}
+
+bool isAnyMovePossible(t_grid *grid)
+{
+	return (isMovePossible(grid, NORTH) || isMovePossible(grid, EAST) || isMovePossible(grid, SOUTH) || isMovePossible(grid, WEST));
+}
+

@@ -13,6 +13,9 @@
 #ifndef GAME_H
 # define GAME_H
 # include "libft.h"
+# include <stdbool.h>
+
+# define BOARD_SIZE 4
 
 typedef enum e_direction
 {
@@ -44,6 +47,9 @@ void	compress(t_cell *head, t_direction dir);
 size_t	merge(t_cell *head, t_direction dir);
 size_t	swipe_line(t_cell *head, t_direction dir);
 void	swipe_grid(t_grid *grid, t_direction dir);
+bool 	isAnyMovePossible(t_grid *grid);
+bool 	isMovePossible(t_grid *grid, t_direction dir);
+bool 	do_action(t_grid *grid, t_direction dir);
 
 //	CELL
 t_cell	*new_cell(size_t value);
@@ -53,9 +59,11 @@ t_cell	*get_cell(t_grid *grid, size_t x, size_t y);
 //	GRID
 int		initialize_grid(t_grid *grid);
 t_grid	*new_grid(size_t dimension);
+void	free_grid(t_grid *grid);
 t_cell	*column_end(t_cell *head);
 t_cell	*row_end(t_cell *head);
 size_t	iterate_line(t_cell *head, t_direction dir, size_t (*fn)(t_cell *, t_direction));
-void	iterate_grid(t_grid grid, void (*fn)(t_cell *, t_direction));
+
+
 
 #endif
