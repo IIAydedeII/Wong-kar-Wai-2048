@@ -19,12 +19,23 @@
 # include <stdbool.h>
 
 # define BOARD_SIZE 4
+# define SCREEN_PADDING 5
+# define KEY_ESCAPE 27
 
 enum e_const
 {
 	WIN_VALUE = 2048
 };
 
+typedef struct t_window
+{
+	int	screenWidth;
+	int	screenHeight;
+	int	boardSize;
+	int	boxSize;
+	int	offsetX;
+	int	offsetY;
+}	t_window;
 
 void	initializeWindow();
 
