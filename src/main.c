@@ -11,35 +11,20 @@
 /* ************************************************************************** */
 
 #include "wong_kar_wai.h"
+#include <stdlib.h>
+#include <time.h>
 
 int	main(void)
 {
 	t_grid *const	grid = new_grid(BOARD_SIZE);
-
+	
 	if (!grid)
 	{
 		ft_printf("Error: Failed to create grid.\n");
 		return (1);
 	}
-
-	get_cell(grid, 1, 0)->value = 2;
-	get_cell(grid, 3, 0)->value = 2;
-
-	get_cell(grid, 0, 1)->value = 2;
-	get_cell(grid, 1, 1)->value = 2;
-	get_cell(grid, 2, 1)->value = 2;
-	get_cell(grid, 3, 1)->value = 2;
-
-	get_cell(grid, 1, 2)->value = 2;
-	get_cell(grid, 3, 2)->value = 4;
-
-	get_cell(grid, 0, 3)->value = 4;
-	get_cell(grid, 1, 3)->value = 4;
-	get_cell(grid, 2, 3)->value = 4;
-	get_cell(grid, 3, 3)->value = 4;
-
+	generate_random_tile(grid, 2);
 	initializeWindow(grid);
-
 	return (0);
 }
 

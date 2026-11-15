@@ -12,9 +12,7 @@ void initializeWindow(t_grid *grid)
 	drawBoard(grid);
 	while (true)
     {
-		ft_printf("sa\n");
         key = getch();
-		ft_printf("sa2\n");
 		if (key == KEY_UP)
 			do_action(grid, NORTH);
 		else if (key == KEY_DOWN)
@@ -25,10 +23,9 @@ void initializeWindow(t_grid *grid)
 			do_action(grid, EAST);
 		else if (key == KEY_ESCAPE)
 			break;
-
-		ft_printf("sa3\n");
 		drawBoard(grid);
     }
+	endwin();
 }
 
 void drawBoard(t_grid *grid)

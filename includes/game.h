@@ -50,6 +50,7 @@ void	swipe_grid(t_grid *grid, t_direction dir);
 bool 	isAnyMovePossible(t_grid *grid);
 bool 	isMovePossible(t_grid *grid, t_direction dir);
 bool 	do_action(t_grid *grid, t_direction dir);
+int		generate_random_tile(t_grid *grid, int count);
 
 //	CELL
 t_cell	*new_cell(size_t value);
