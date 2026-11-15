@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 20:04:09 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 18:03:33 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 20:05:36 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct s_grid
 
 //	ACTIONS
 void	compress(t_cell *head, t_direction direction);
+void	merge(t_cell *head, t_direction direction);
 void	swipe_line(t_cell *head, t_direction direction);
 void	swipe_grid(t_grid *grid, t_direction direction);
-void	push_cell(t_cell *cell, t_direction direction);
 
 //	UTILS
 

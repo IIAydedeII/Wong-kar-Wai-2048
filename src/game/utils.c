@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/15 17:45:43 by adede             #+#    #+#             */
-/*   Updated: 2026/11/15 17:57:26 by adede            ###   ########.fr       */
+/*   Updated: 2026/11/15 20:05:43 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	initialize_grid(t_grid *grid, size_t dimension)
 		prev = NULL;
 		for (size_t j = 0; j < dimension; j++)
 		{
-			cell = new_cell(i + j);
+			cell = new_cell(0);
 			if (!cell)
 				return ;
 
@@ -102,7 +102,7 @@ t_grid	*new_grid(size_t dimension)
 
 t_cell	*get_cell(t_cell *cell, int x, int y)
 {
-	t_cell *temp = cell;
+	t_cell	*temp = cell;
 
 	for (int i = 0; i < x; i++)
 		temp = temp->east;
