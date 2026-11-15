@@ -6,7 +6,7 @@
 #    By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/14 18:38:49 by adede             #+#    #+#              #
-#    Updated: 2026/11/14 19:50:28 by adede            ###   ########.fr        #
+#    Updated: 2026/11/15 18:04:36 by adede            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,15 @@ LIBRARIES		=	-l ncurses
 
 MAIN			=	main.c
 
+SRC_GAME		=	game.c \
+					actions.c \
+					utils.c \
+
+SRC_DISPLAY		=	window.c
+
 SRCS			=	$(addprefix src/,$(MAIN)) \
-					$(addprefix src/components/,window.c)	
+					$(addprefix src/game/,$(SRC_GAME)) \
+					$(addprefix src/display/,$(SRC_DISPLAY)) \
 
 OBJS			=	$(SRCS:.c=.o)
 
